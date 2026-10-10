@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Plan your Thailand holiday budget with Travelaries. Calculate accommodation, food, transport, activities, flights and more in Thai baht and South African rand.">
+<title>Thailand Travel Budget Calculator | Travelaries</title>
+<style>
+:root {
+  --navy:#10283f;
+  --teal:#087e83;
+  --light:#e9f6f4;
+  --bg:#f5f8fb;
+  --muted:#5b6877;
+  --border:#dce5eb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--navy);line-height:1.55}
+header{background:linear-gradient(125deg,#10283f,#087e83);color:white;text-align:center;padding:48px 18px}
+header h1{font-size:clamp(28px,5vw,43px);margin:10px 0}
+header p{max-width:660px;margin:10px auto;color:#e6f6f6}
+.logo{font-weight:800;letter-spacing:2px;font-size:14px}
+.container{max-width:1050px;margin:30px auto;padding:0 18px}
+.card{background:white;border:1px solid var(--border);border-radius:18px;padding:25px;margin-bottom:20px;box-shadow:0 5px 22px #10283f0a}
+h2{margin:0 0 18px;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-weight:700;font-size:14px}
+small,.hint{color:var(--muted);font-size:12px}
+input{width:100%;border:1px solid #bacbd4;border-radius:9px;padding:12px;font-size:16px;color:var(--navy);background:white}
+input:focus{outline:2px solid var(--teal);outline-offset:1px}
+.section-note{color:var(--muted);font-size:14px;margin:-6px 0 20px}
+button{background:var(--teal);color:white;border:0;border-radius:10px;padding:14px 22px;font-size:16px;font-weight:700;cursor:pointer}
+button:hover{background:#05666a}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.secondary{background:#e8eff3;color:var(--navy)}
+.secondary:hover{background:#d7e4eb}
+.error{color:#a01e28;font-weight:700;white-space:pre-line}
+.results{display:none}
+.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.result-box{background:var(--light);padding:22px;border-radius:12px}
+.result-box span{display:block;font-size:13px;color:#33575c}
+.result-box strong{display:block;font-size:clamp(23px,4vw,32px);margin-top:6px;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;margin-top:18px}
+th,td{padding:12px 8px;border-bottom:1px solid var(--border);text-align:left}
+th:last-child,td:last-child{text-align:right}
+th{font-size:13px;color:var(--muted)}
+.link{color:var(--teal);font-weight:700}
+footer{text-align:center;padding:30px 18px;color:var(--muted);font-size:13px}
+footer a{color:var(--teal)}
+@media(max-width:650px){
+.grid,.result-grid{grid-template-columns:1fr}
+.card{padding:19px}
+header{padding:36px 18px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">TRAVELARIES</div>
+<h1>Thailand Travel Budget Calculator</h1>
+<p>Plan your Thailand holiday with a clear estimate of accommodation, food, transport, activities and other travel expenses.</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h2>1. Your Trip Details</h2>
+<div class="grid">
+<div class="field">
+<label for="days">Travel days</label>
+<input id="days" type="number" min="1" max="365" step="1" value="7">
+</div>
+<div class="field">
+<label for="nights">Hotel nights</label>
+<input id="nights" type="number" min="0" max="365" step="1" value="6">
+</div>
+<div class="field">
+<label for="people">Number of travellers</label>
+<input id="people" type="number" min="1" max="100" step="1" value="2">
+</div>
+<div class="field">
+<label for="rate">Exchange rate: ZAR per 1 THB</label>
+<input id="rate" type="number" min="0.000001" step="any" value="0.55">
+<small>Illustrative rate only. Enter the latest exchange rate before calculating.</small>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>2. Daily Travel Costs</h2>
+<p class="section-note">All amounts below are in Thai baht (THB).</p>
+<div class="grid">
+<div class="field">
+<label for="hotel">Accommodation per room per night</label>
+<input id="hotel" type="number" min="0" step="any" value="1500">
+</div>
+<div class="field">
+<label for="rooms">Number of rooms</label>
+<input id="rooms" type="number" min="0" max="100" step="1" value="1">
+</div>
+<div class="field">
+<label for="food">Food per person per day</label>
+<input id="food" type="number" min="0" step="any" value="600">
+</div>
+<div class="field">
+<label for="transport">Local transport per person per day</label>
+<input id="transport" type="number" min="0" step="any" value="250">
+</div>
+<div class="field">
+<label for="activities">Activities per person per day</label>
+<input id="activities" type="number" min="0" step="any" value="450">
+</div>
+<div class="field">
+<label for="extras">Other daily costs per person</label>
+<input id="extras" type="number" min="0" step="any" value="150">
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>3. Additional Trip Expenses</h2>
+<p class="section-note">Enter total group costs in THB, not per-person costs.</p>
+<div class="grid">
+<div class="field">
+<label for="flights">Flights — total for all travellers</label>
+<input id="flights" type="number" min="0" step="any" value="0">
+</div>
+<div class="field">
+<label for="visa">Visa expenses — total</label>
+<input id="visa" type="number" min="0" step="any" value="0">
+</div>
+<div class="field">
+<label for="insurance">Travel insurance — total</label>
+<input id="insurance" type="number" min="0" step="any" value="0">
+</div>
+<div class="field">
+<label for="other">Other one-time expenses — total</label>
+<input id="other" type="number" min="0" step="any" value="0">
+</div>
+<div class="field">
+<label for="buffer">Contingency allowance (%)</label>
+<input id="buffer" type="number" min="0" max="100" step="any" value="10">
+</div>
+</div>
+
+<div class="actions">
+<button type="button" onclick="calculate()">Calculate My Budget</button>
+<button type="button" class="secondary" onclick="resetCalculator()">Reset</button>
+</div>
+<p id="error" class="error" role="alert" aria-live="polite"></p>
+</section>
+
+<section id="results" class="card results" aria-live="polite">
+<h2>Your Estimated Thailand Budget</h2>
+<div class="result-grid">
+<div class="result-box">
+<span>Total group budget (THB)</span>
+<strong id="totalTHB"></strong>
+</div>
+<div class="result-box">
+<span>Total group budget (ZAR)</span>
+<strong id="totalZAR"></strong>
+</div>
+<div class="result-box">
+<span>Estimated cost per person (THB)</span>
+<strong id="personTHB"></strong>
+</div>
+<div class="result-box">
+<span>Estimated cost per person (ZAR)</span>
+<strong id="personZAR"></strong>
+</div>
+</div>
+
+<h2 style="margin-top:28px">Budget Breakdown</h2>
+<table>
+<thead><tr><th>Expense</th><th>Cost (THB)</th></tr></thead>
+<tbody id="breakdown"></tbody>
+</table>
+
+<p class="hint">These are planning estimates, not live prices or quotes. Exchange rates, booking prices and individual expenses may vary.</p>
+
+<p>For more destination inspiration and travel planning advice, visit
+<a class="link" href="https://travelaries.com/" target="_blank" rel="noopener noreferrer">Travelaries</a>.</p>
+</section>
+
+<section class="card">
+<h2>Explore More with Travelaries</h2>
+<p>Looking for more travel inspiration? Explore practical guides, destination highlights and planning resources.</p>
+<a class="link" href="https://travelaries.com/" target="_blank" rel="noopener noreferrer">Visit Travelaries.com →</a>
+</section>
+
+</main>
+
+<footer>
+© <span id="year"></span> Travelaries. Independent travel planning resource.
+</footer>
+
+<script>
+"use strict";
+
+const fieldIds = [
+  "days","nights","people","rate","hotel","rooms",
+  "food","transport","activities","extras",
+  "flights","visa","insurance","other","buffer"
+];
+
+const defaults = {};
+fieldIds.forEach(id => {
+  defaults[id] = document.getElementById(id).value;
+});
+
+function readNumber(id, integer = false) {
+  const el = document.getElementById(id);
+  const raw = el.value.trim();
+
+  if (raw === "") {
+    throw new Error("Please enter a value for " +
+      document.querySelector('label[for="' + id + '"]').textContent + ".");
+  }
+
+  const value = Number(raw);
+
+  if (!Number.isFinite(value) || value < 0 ||
+      (integer && !Number.isInteger(value))) {
+    throw new Error("Please enter a valid non-negative " +
+      (integer ? "whole number" : "number") + " for " +
+      document.querySelector('label[for="' + id + '"]').textContent + ".");
+  }
+
+  const min = el.min === "" ? -Infinity : Number(el.min);
+  const max = el.max === "" ? Infinity : Number(el.max);
+
+  if (value < min || value > max) {
+    throw new Error("Please enter a value between " + min +
+      " and " + max + " for " +
+      document.querySelector('label[for="' + id + '"]').textContent + ".");
+  }
+
+  return value;
+}
+
+function money(value, currency) {
+  return new Intl.NumberFormat("en-ZA", {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value);
+}
+
+function calculate() {
+  const error = document.getElementById("error");
+  const results = document.getElementById("results");
+  error.textContent = "";
+  results.style.display = "none";
+
+  try {
+    const days = readNumber("days", true);
+    const nights = readNumber("nights", true);
+    const people = readNumber("people", true);
+    const rate = readNumber("rate");
+    const hotel = readNumber("hotel");
+    const rooms = readNumber("rooms", true);
+    const food = readNumber("food");
+    const transport = readNumber("transport");
+    const activities = readNumber("activities");
+    const extras = readNumber("extras");
+    const flights = readNumber("flights");
+    const visa = readNumber("visa");
+    const insurance = readNumber("insurance");
+    const other = readNumber("other");
+    const buffer = readNumber("buffer");
+
+    if (rate <= 0) {
+      throw new Error("Exchange rate must be greater than zero.");
+    }
+
+    if (nights > days) {
+      throw new Error("Hotel nights cannot exceed travel days.");
+    }
+
+    if (nights > 0 && rooms === 0) {
+      throw new Error("Enter at least one room if hotel nights are greater than zero.");
+    }
+
+    const items = [
+      ["Accommodation", nights * rooms * hotel],
+      ["Food", days * people * food],
+      ["Local transport", days * people * transport],
+      ["Activities", days * people * activities],
+      ["Other daily expenses", days * people * extras],
+      ["Flights", flights],
+      ["Visa expenses", visa],
+      ["Travel insurance", insurance],
+      ["Other one-time expenses", other]
+    ];
+
+    const subtotal = items.reduce((sum, item) => sum + item[1], 0);
+    const contingency = subtotal * buffer / 100;
+    const total = subtotal + contingency;
+
+    if (!Number.isFinite(total) || !Number.isFinite(total * rate)) {
+      throw new Error("The calculated amount is too large. Please check your entries.");
+    }
+
+    document.getElementById("totalTHB").textContent = money(total, "THB");
+    document.getElementById("totalZAR").textContent = money(total * rate, "ZAR");
+    document.getElementById("personTHB").textContent = money(total / people, "THB");
+    document.getElementById("personZAR").textContent = money(total * rate / people, "ZAR");
+
+    const tbody = document.getElementById("breakdown");
+    tbody.replaceChildren();
+
+    items.push(["Contingency (" + buffer + "%)", contingency]);
+
+    items.forEach(item => {
+      const tr = document.createElement("tr");
+      const name = document.createElement("td");
+      const amount = document.createElement("td");
+
+      name.textContent = item[0];
+      amount.textContent = money(item[1], "THB");
+
+      tr.append(name, amount);
+      tbody.appendChild(tr);
+    });
+
+    results.style.display = "block";
+    results.scrollIntoView({behavior:"smooth",block:"start"});
+
+  } catch (err) {
+    error.textContent = err.message;
+  }
+}
+
+function resetCalculator() {
+  fieldIds.forEach(id => {
+    document.getElementById(id).value = defaults[id];
+  });
+  document.getElementById("error").textContent = "";
+  document.getElementById("results").style.display = "none";
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
